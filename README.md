@@ -1,5 +1,2 @@
-# Vue 3 + Vite
-
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+# Buygorithm
+This marketplace website is designed for users to buy and sell products, ranging from brand-new to second-hand items and from clothing to electronics. It aims to target shoppers who enjoy shopping through useful search tools whilst also providing accurate results according to stakeholders’ enquiries, to enhance their shopping experience.
