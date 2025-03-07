@@ -1,15 +1,18 @@
-
 <template>
-  <footer class="bg-gray-800 text-white p-6">
-    <div class="container mx-auto flex items-center">
-      <div class="text-xl font-bold">Buygorithm</div>
-      <!-- <img src="https://via.placeholder.com/100" alt="Company Logo" class="w-24 h-24 mr-6" /> -->
-      <div class="border-l border-gray-600 h-24 mx-6"></div>
-      <div>
-        <p>Customer Service No.: 0800 866 1129</p>
-        <p>Merchant Hotline: 0800 988 2230</p>
-        <p>Customer Service Hours: 10 AM - 6 PM</p>
-        <p>Merchant Service Hours: 10 AM - 5 PM</p>
+  <footer class="bg-teal-500 text-white p-6">
+    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+      <!-- Logo -->
+      <div class="text-2xl md:text-4xl font-bold mb-4 md:mb-0">Buygorithm</div>
+
+      <!-- Divider (Hidden on mobile) -->
+      <div class="border-l border-gray-600 h-24 mx-6 hidden md:block"></div>
+
+      <!-- Contact Info -->
+      <div class="text-center md:text-left">
+        <p class="text-sm md:text-base">Customer Service No.: 0800 866 1129</p>
+        <p class="text-sm md:text-base">Merchant Hotline: 0800 988 2230</p>
+        <p class="text-sm md:text-base">Customer Service Hours: 10 AM - 6 PM</p>
+        <p class="text-sm md:text-base">Merchant Service Hours: 10 AM - 5 PM</p>
       </div>
     </div>
   </footer>

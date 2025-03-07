@@ -1,10 +1,10 @@
 <template>
-    <div class="relative w-full h-64 overflow-hidden rounded-lg">
+    <div class="relative w-full h-96 overflow-hidden rounded-lg">
       <img :src="currentImage" alt="Carousel Image" class="w-full h-full object-cover" />
-      <button @click="prevImage" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2">
+      <button @click="prevImage" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3">
         &lt;
       </button>
-      <button @click="nextImage" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2">
+      <button @click="nextImage" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3">
         &gt;
       </button>
     </div>
@@ -39,11 +39,10 @@
       },
     },
     mounted() {
-      setInterval(this.nextImage, 5000); // Auto-slide every 5 seconds
+      setInterval(this.nextImage, 5000); 
     },
   };
   </script>
   
   <style scoped>
-  /* Add custom styles if needed */
   </style>

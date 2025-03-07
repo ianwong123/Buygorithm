@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white p-4 rounded-lg shadow-md cursor-pointer" @click="navigateToTrending">
-    <img :src="image" alt="Category Image" class="w-full h-32 object-cover rounded-lg" />
+    <img :src="image" alt="Category Image" class="w-full h-64 object-cover rounded-lg" />
     <h3 class="mt-2 text-center text-lg font-semibold">{{ category }}</h3>
   </div>
 </template>
