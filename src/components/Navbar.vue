@@ -6,9 +6,11 @@
     <!-- Desktop Menu -->
     <div class="hidden md:flex space-x-4">
       <router-link to="/" class="hover:text-gray-200">Home</router-link>
+      <router-link to="/auction" class="hover:text-gray-200">Auction</router-link>
+      <router-link to="/sell" class="hover:text-gray-200">Sell</router-link>
       <router-link to="/cart" class="hover:text-gray-200">Cart</router-link>
-      <router-link to="/login" class="hover:text-gray-200">Login</router-link>
-      <router-link to="/sign-up" class="hover:text-gray-200">Sign up</router-link>
+      <button @click="openLoginModal" class="hover:text-gray-200">Login</button>
+      <button @click="openSignupModal" class="hover:text-gray-200">Sign Up</button>
     </div>
 
     <!-- Mobile Menu Button -->
@@ -26,24 +28,59 @@
         </svg>
       </button>
       <router-link to="/" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Home</router-link>
+      <router-link to="/auction" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Auction</router-link>
+      <router-link to="/sell" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Sell</router-link>
       <router-link to="/cart" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Cart</router-link>
-      <router-link to="/login" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Login</router-link>
-      <router-link to="/sign-up" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Sign up</router-link>
+      <button @click="openLoginModal" class="text-2xl my-2 hover:text-gray-200">Login</button>
+      <button @click="openSignupModal" class="text-2xl my-2 hover:text-gray-200">Sign Up</button>
     </div>
+
+    <!-- Login -->
+    <LoginModal :isOpen="isLoginModalOpen" @close="closeLoginModal" />
+
+    <!-- Signup  -->
+    <SignupModal :isOpen="isSignupModalOpen" @close="closeSignupModal" />
   </nav>
 </template>
 
 <script>
+import LoginModal from '@/components/Login.vue';
+import SignupModal from '@/components/SignUp.vue';
+
 export default {
   name: 'Navbar',
+  components: {
+    LoginModal,
+    SignupModal,
+  },
+
   data() {
     return {
       isMenuOpen: false,
+      isLoginModalOpen: false,
+      isSignupModalOpen: false,
     };
   },
+
   methods: {
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
+    },
+
+    openLoginModal() {
+      this.isLoginModalOpen = true;
+    },
+
+    closeLoginModal() {
+      this.isLoginModalOpen = false;
+    },
+    
+    openSignupModal() {
+      this.isSignupModalOpen = true;
+    },
+    
+    closeSignupModal() {
+      this.isSignupModalOpen = false;
     },
   },
 };
