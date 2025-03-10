@@ -25,10 +25,10 @@
           <router-link to="/trending" class="text-blue-500 text-xl hover:underline">More →</router-link>
         </div>
         <div class="grid lg:grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-12">
-          <CategoryCard image="https://via.placeholder.com/400x200" category="Category 1" />
-          <CategoryCard image="https://via.placeholder.com/400x200" category="Category 2" />
-          <CategoryCard image="https://via.placeholder.com/400x200" category="Category 3" />
-          <CategoryCard image="https://via.placeholder.com/400x200" category="Category 4" />
+          <CategoryCard image="https://via.placeholder.com/400x200" category="Brand New" />
+          <CategoryCard image="https://via.placeholder.com/400x200" category="Accessories" />
+          <CategoryCard image="https://via.placeholder.com/400x200" category="Electronics" />
+          <CategoryCard image="https://via.placeholder.com/400x200" category="Second Hand" />
         </div>
       </section>
     </main>

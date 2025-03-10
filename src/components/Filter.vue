@@ -4,7 +4,7 @@
         <input type="checkbox" id="in-stock" v-model="inStock" class="mr-2" />
         <label for="in-stock">In Stock</label>
       </div>
-      <!-- Add more filters here -->
+      <!-- Add more filters  -->
     </div>
   </template>
   
@@ -20,5 +20,4 @@
   </script>
   
   <style scoped>
-  /* Add custom styles if needed */
   </style>

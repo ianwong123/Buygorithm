@@ -7,7 +7,9 @@
     <div class="hidden md:flex space-x-4">
       <router-link to="/" class="hover:text-gray-200">Home</router-link>
       <router-link to="/auction" class="hover:text-gray-200">Auction</router-link>
+      <router-link to="/trending" class="hover:text-gray-200">Shop</router-link>
       <router-link to="/sell" class="hover:text-gray-200">Sell</router-link>
+      <router-link to="/manage" class="hover:text-gray-200">Manage Products</router-link>
       <router-link to="/cart" class="hover:text-gray-200">Cart</router-link>
       <button @click="openLoginModal" class="hover:text-gray-200">Login</button>
       <button @click="openSignupModal" class="hover:text-gray-200">Sign Up</button>
@@ -29,7 +31,9 @@
       </button>
       <router-link to="/" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Home</router-link>
       <router-link to="/auction" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Auction</router-link>
+      <router-link to="/trending" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Shop</router-link>
       <router-link to="/sell" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Sell</router-link>
+      <router-link to="/manage" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Manage Products</router-link>
       <router-link to="/cart" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Cart</router-link>
       <button @click="openLoginModal" class="text-2xl my-2 hover:text-gray-200">Login</button>
       <button @click="openSignupModal" class="text-2xl my-2 hover:text-gray-200">Sign Up</button>

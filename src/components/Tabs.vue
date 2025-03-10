@@ -4,14 +4,14 @@
       <button
         v-for="tab in tabs"
         :key="tab"
-        @click="activeTab = tab"
+        @click="handleTabClick(tab)"
         :class="['p-2', activeTab === tab ? 'border-b-2 border-blue-500' : 'text-gray-500']"
       >
         {{ tab }}
       </button>
     </div>
-    <div class="mt-4">
-      <img :src="imagePlaceholder" alt="Placeholder" class="w-full h-48 object-cover rounded-lg" />
+    <div class="mt-4 lg:min-w-lg">
+      <img :src="imagePlaceholder" alt="Placeholder" class="hidden lg:block w-full h-64 object-cover rounded-lg" />
     </div>
   </div>
 </template>
@@ -32,17 +32,27 @@ export default {
   data() {
     return {
       activeTab: this.initialTab,
-      imagePlaceholder: 'https://via.placeholder.com/800x400',
+      imagePlaceholder: '/home-carouselimage/trending.jpg',
     };
   },
+
   watch: {
     initialTab(newTab) {
-      this.activeTab = newTab;
+      //change the new tab
+      this.activeTab = newTab; 
+    },
+  },
+
+  methods: {
+    handleTabClick(tab) {
+
+      // Emit the selected tab to the parent
+      this.activeTab = tab;
+      this.$emit('tab-change', tab); 
     },
   },
 };
 </script>
 
 <style scoped>
-/* Add custom styles if needed */
 </style>
