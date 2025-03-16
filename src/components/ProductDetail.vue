@@ -15,7 +15,22 @@
         alt="Product Image"
         class="w-full h-48 md:h-64 lg:h-80 object-cover rounded-lg mb-4"
       />
+      
+      <button
+          @click="buyNow"
+          class="w-full md:w-auto bg-teal-500 text-white p-2 rounded-lg hover:bg-teal-600"
+        >
+          Buy Now
+      </button>
 
+      <button
+          @click="addToCart"
+          class="w-full md:w-auto bg-teal-500 text-white p-2 rounded-lg hover:bg-teal-600"
+        >
+          Add to Cart
+        </button>
+
+      
       <!-- Product Description -->
       <p class="text-base md:text-lg text-justify mb-4 break-words whitespace-pre-line">
         {{ product.description }}
