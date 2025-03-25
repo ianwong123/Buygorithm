@@ -13,7 +13,7 @@
         </div>
         <div class="hidden sm:hidden lg:col-span-3 lg:grid lg:grid-cols-2 gap-4">
           <PromoBox image="https://via.placeholder.com/400x200" title="Promo 3" />
-          <PromoBox image="https://via.placeholder.com/400x200" title="Promo 4" />
+          <PromoBox image="https://via.placeholder.com/400x200" title="Promo 65" />
         </div>
       </section>
 
