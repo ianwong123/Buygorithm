@@ -44,7 +44,7 @@ const authenticate = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
   
   try {
-    // Verify token (you'll need to implement JWT)
+   
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
     // Get user from database
