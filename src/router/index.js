@@ -13,7 +13,7 @@ const routes = [
   { path: '/trending', component: TrendingView, props: (route) => ({ query: route.query }) },
   { path: '/sell', component: SellView },
   { path: '/product/:id', name: 'ProductDetail',component: ProductDetail,},
-  { path: '/loyalty', name: 'LoyaltyView', component: Loyalty,}
+  { path: '/loyalty', name: 'LoyaltyView', component: Loyalty,},
 ];
 
 // Create the router instance and pass the `routes` option
