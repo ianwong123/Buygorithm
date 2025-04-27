@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Catch the Points!</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #222;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    canvas {
+      display: block;
+      margin: auto;
+      background: #333;
+      border: 2px solid #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Catch the Points!</h1>
+  <p>Use ← and → to move the basket. Score: <span id="score">0</span></p>
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const basket = {
+      x: 160,
+      y: 550,
+      width: 80,
+      height: 20,
+      speed: 5
+    };
+
+    const points = [];
+    let score = 0;
+    let keys = {};
+
+    // Handle keyboard input
+    document.addEventListener("keydown", e => keys[e.key] = true);
+    document.addEventListener("keyup", e => keys[e.key] = false);
+
+    // Create a falling point
+    function spawnPoint() {
+      const x = Math.random() * (canvas.width - 20);
+      points.push({ x, y: 0, radius: 10, speed: 2 + Math.random() * 2 });
+    }
+
+    function update() {
+      // Move basket
+      if (keys["ArrowLeft"] && basket.x > 0) basket.x -= basket.speed;
+      if (keys["ArrowRight"] && basket.x + basket.width < canvas.width) basket.x += basket.speed;
+
+      // Move points
+      for (let i = points.length - 1; i >= 0; i--) {
+        const p = points[i];
+        p.y += p.speed;
+
+        // Check if caught
+        if (
+          p.y + p.radius >= basket.y &&
+          p.x >= basket.x &&
+          p.x <= basket.x + basket.width
+        ) {
+          points.splice(i, 1);
+          score++;
+          document.getElementById("score").textContent = score;
+        } else if (p.y > canvas.height) {
+          points.splice(i, 1); // remove missed point
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw basket
+      ctx.fillStyle = "orange";
+      ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
+
+      // Draw points
+      ctx.fillStyle = "lime";
+      points.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Start the game
+    setInterval(spawnPoint, 1000); // Spawn point every second
+    gameLoop();
+  </script>
+</body>
+</html>
