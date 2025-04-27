@@ -6,12 +6,14 @@ import SellView from '@/views/SellView.vue';
 import ProductDetail from '@/components/ProductDetail.vue';
 import LoyaltyView from '@/views/LoyaltyView.vue';
 import Minigame from '@/views/Minigame.vue'; 
+import Minigame2 from '@/views/Minigame2.vue'; 
 import ManageView from '@/views/ManageView.vue'; 
 
 /* User defined routes */
 const routes = [
   { path: '/', component: HomeView },
   { path: '/minigame/game1', component: Minigame },
+  { path: '/minigame/game2', component: Minigame2 },
   { path: '/trending', component: TrendingView, props: (route) => ({ query: route.query }) },
   { path: '/sell', component: SellView },
   { path: '/product/:id', name: 'ProductDetail',component: ProductDetail,},

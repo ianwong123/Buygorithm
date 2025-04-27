@@ -8,8 +8,8 @@
       <router-link to="/" class="hover:text-gray-200">Home</router-link>
       
       <!-- Minigames Dropdown (Desktop) -->
-      <div class="relative">
-        <button class="hover:text-gray-200 bold" @click="toggleMinigameDropdown">
+      <div class="relative z-50">
+        <button class="hover:text-gray-200 font-medium" @click="toggleMinigameDropdown">
           Minigame 
         </button>
         <div v-if="isMinigameDropdownOpen" class="absolute left-0 mt-2 w-40 bg-teal-600 text-white rounded-md shadow-lg">
@@ -57,6 +57,7 @@
 
       <router-link to="/auction" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Auction</router-link>
       <router-link to="/sell" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Sell</router-link>
+      <router-link to="/lux" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Loyalty</router-link>
       <button @click="openLoginModal" class="text-2xl my-2 hover:text-gray-200">Login</button>
       <button @click="openSignupModal" class="text-2xl my-2 hover:text-gray-200">Sign Up</button>
     </div>
