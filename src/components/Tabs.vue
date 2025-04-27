@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       activeTab: this.initialTab,
-      imagePlaceholder: '/home-carouselimage/trending.jpg',
+      imagePlaceholder: '/home-carouselimage/trending1.jpg',
     };
   },
 

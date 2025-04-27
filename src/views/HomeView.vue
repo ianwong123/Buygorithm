@@ -8,12 +8,12 @@
           <ImageCarousel />
         </div>
         <div class="hidden lg:grid lg:grid-cols-1 gap-4">
-          <PromoBox image="https://via.placeholder.com/400x200" title="Promo 1" />
-          <PromoBox image="https://via.placeholder.com/400x200" title="Promo 2" />
+          <PromoBox image="/home-carouselimage/promo1.jpg"  />
+          <PromoBox image="/home-carouselimage/promo2.jpg"  />
         </div>
         <div class="hidden sm:hidden lg:col-span-3 lg:grid lg:grid-cols-2 gap-4">
-          <PromoBox image="https://via.placeholder.com/400x200" title="Promo 3" />
-          <PromoBox image="https://via.placeholder.com/400x200" title="Promo 4" />
+          <PromoBox image="/home-carouselimage/promo3.jpg"  />
+          <PromoBox image="/home-carouselimage/promo4.jpg"  />
         </div>
       </section>
 
@@ -25,10 +25,10 @@
           <router-link to="/trending" class="text-blue-500 text-xl hover:underline">More →</router-link>
         </div>
         <div class="grid lg:grid-cols-2 sm:grid-cols-1 md:grid-cols-2 gap-12">
-          <CategoryCard image="https://via.placeholder.com/400x200" category="Brand New" />
-          <CategoryCard image="https://via.placeholder.com/400x200" category="Accessories" />
-          <CategoryCard image="https://via.placeholder.com/400x200" category="Electronics" />
-          <CategoryCard image="https://via.placeholder.com/400x200" category="Second Hand" />
+          <CategoryCard image="/home-carouselimage/brand_new.jpg" category="Brand New" />
+          <CategoryCard image="/home-carouselimage/accessories.jpg" category="Accessories" />
+          <CategoryCard image="/home-carouselimage/electronics.jpg" category="Electronics" />
+          <CategoryCard image="/home-carouselimage/second_hand.jpg" category="Second Hand" />
         </div>
       </section>
     </main>
