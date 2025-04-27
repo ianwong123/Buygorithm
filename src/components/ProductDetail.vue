@@ -59,6 +59,9 @@
         
         <!-- Seller information -->
         <p v-if="product.seller_name" class="text-base md:text-lg mb-4">Seller: {{ product.seller_name }}</p>
+
+        <!-- Product information -->
+        <p v-if="product.seller_name" class="text-base md:text-lg mb-4">Product ID: {{ product.id }}</p>
         
         <!-- Condition -->
         <p class="text-base md:text-lg mb-4">Condition: {{ product.item_condition === 'new' ? 'New' : 'Used' }}</p>
