@@ -11,7 +11,7 @@ import ManageView from '@/views/ManageView.vue';
 /* User defined routes */
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/minigame', component: Minigame },
+  { path: '/minigame/game1', component: Minigame },
   { path: '/trending', component: TrendingView, props: (route) => ({ query: route.query }) },
   { path: '/sell', component: SellView },
   { path: '/product/:id', name: 'ProductDetail',component: ProductDetail,},

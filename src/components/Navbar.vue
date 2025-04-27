@@ -6,7 +6,18 @@
     <!-- Desktop Menu -->
     <div class="hidden md:flex space-x-4">
       <router-link to="/" class="hover:text-gray-200">Home</router-link>
-      <router-link to="/minigame" class="hover:text-gray-200">Minigame</router-link>
+      
+      <!-- Minigames Dropdown (Desktop) -->
+      <div class="relative">
+        <button class="hover:text-gray-200 bold" @click="toggleMinigameDropdown">
+          Minigame 
+        </button>
+        <div v-if="isMinigameDropdownOpen" class="absolute left-0 mt-2 w-40 bg-teal-600 text-white rounded-md shadow-lg">
+          <router-link to="/minigame/game1" class="block px-4 py-2 hover:bg-teal-700">Game 1</router-link>
+          <router-link to="/minigame/game2" class="block px-4 py-2 hover:bg-teal-700">Game 2</router-link>
+        </div>
+      </div>
+
       <router-link to="/auction" class="hover:text-gray-200">Auction</router-link>
       <router-link to="/trending" class="hover:text-gray-200">Shop</router-link>
       <router-link to="/sell" class="hover:text-gray-200">Sell</router-link>
@@ -32,23 +43,28 @@
         </svg>
       </button>
       <router-link to="/" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Home</router-link>
-      <router-link to="/minigame" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Minigame</router-link>
+      
+      <!-- Minigames Dropdown (Mobile) -->
+      <div class="relative">
+        <button class="text-2xl my-2 hover:text-gray-200" @click="toggleMobileMinigameDropdown">
+          Minigame
+        </button>
+        <div v-if="isMobileMinigameDropdownOpen" class="text-2xl my-2">
+          <router-link to="/minigame/game1" @click="toggleMenu" class="block my-2 hover:text-gray-200">Game 1</router-link>
+          <router-link to="/minigame/game2" @click="toggleMenu" class="block my-2 hover:text-gray-200">Game 2</router-link>
+        </div>
+      </div>
+
       <router-link to="/auction" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Auction</router-link>
-      <router-link to="/trending" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Shop</router-link>
       <router-link to="/sell" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Sell</router-link>
-      <router-link to="/manage" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Manage Products</router-link>
-      <router-link to="/cart" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Cart</router-link>
-      <router-link v-if="isAuthenticated && currentUser.role === 'seller'" to="/sell" class="hover:text-gray-200">Sell</router-link>
-      <router-link v-if="isAuthenticated && currentUser.role === 'seller'" to="/manage-products" class="hover:text-gray-200">Manage Products</router-link>
-      <button v-if="!isAuthenticated" @click="openLoginModal" class="hover:text-gray-200">Login to Sell</button>
       <button @click="openLoginModal" class="text-2xl my-2 hover:text-gray-200">Login</button>
       <button @click="openSignupModal" class="text-2xl my-2 hover:text-gray-200">Sign Up</button>
     </div>
 
-    <!-- Login -->
+    <!-- Login Modal -->
     <LoginModal :isOpen="isLoginModalOpen" @close="closeLoginModal" />
 
-    <!-- Signup  -->
+    <!-- Signup Modal -->
     <SignupModal :isOpen="isSignupModalOpen" @close="closeSignupModal" />
   </nav>
 </template>
@@ -69,6 +85,8 @@ export default {
       isMenuOpen: false,
       isLoginModalOpen: false,
       isSignupModalOpen: false,
+      isMinigameDropdownOpen: false,  // For desktop
+      isMobileMinigameDropdownOpen: false,  // For mobile
     };
   },
 
@@ -81,10 +99,17 @@ export default {
     }
   },
 
-
   methods: {
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
+    },
+
+    toggleMinigameDropdown() {
+      this.isMinigameDropdownOpen = !this.isMinigameDropdownOpen;
+    },
+
+    toggleMobileMinigameDropdown() {
+      this.isMobileMinigameDropdownOpen = !this.isMobileMinigameDropdownOpen;
     },
 
     openLoginModal() {
@@ -106,7 +131,6 @@ export default {
     logout() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      api.clearAuthToken();
       this.$router.push('/');
     },
   },
