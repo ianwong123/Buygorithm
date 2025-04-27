@@ -2,129 +2,145 @@
     <div class="loyalty min-h-screen flex flex-col">
       <Navbar />
       <main class="flex-grow p-6 max-w-2xl mx-auto space-y-6">
-        <h1 class="text-5xl font-bold mb-6 text-center">Buygorithm Lux</h1>
-  
-        <!-- Box 1: Welcome Text -->
+        <h1 class="text-5xl font-bold mb-6 text-center">Loyalty Program</h1>
+
+        <!-- Points Tracker Box -->
+        <div class="bg-indigo-100 p-6 rounded-lg shadow-md text-center">
+          <h2 class="text-2xl font-semibold mb-4">Your Points</h2>
+          <p class="text-3xl font-bold">{{ userPoints }} Points</p>
+        </div>
+
+        <!-- Tier Status Tracker -->
+        <div class="bg-orange-100 p-6 rounded-lg shadow-md text-center">
+            <h2 class="text-2xl font-semibold mb-4">Your Tier</h2>
+        <div class="text-3xl font-bold mb-2">{{ currentTier }}</div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-300 rounded-full h-5 overflow-hidden mb-4">
+            <div 
+                class="bg-emerald-400 h-full text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                :style="{ width: progressToNextTier + '%' }"
+            >
+            {{ progressToNextTier }}%
+         </div>
+    </div>
+
+  <!-- Info about Next Tier -->
+  <p class="text-sm text-gray-600">
+    {{ pointsNeeded }} more points needed to reach <span class="font-semibold">{{ nextTier }}</span>!
+  </p>
+</div>
+
+        <!-- Info Paragraph Boxes -->
         <div class="bg-blue-100 p-6 rounded-lg shadow-md">
-          <p>
-            We are very appreciative to our loyal users! Join our loyalty program and enjoy exclusive discounts, free deliveries and special rewards.
+          <h2 class="text-2xl font-semibold mb-4 text-center">Welcome</h2>
+          <p class="text-center">
+            Welcome to our Loyalty Program! Earn points every time you interact with us — shopping, playing games, referring friends, or celebrating your birthday.
           </p>
         </div>
-    
-        <!-- Box 2: Pricing -->
-        <div class="bg-red-100 p-6 rounded-lg shadow-md">
-          <h2 class="text-2xl font-semibold mb-2 text-center"></h2>
-          <p>Sign-up to Buygorithm Lux for unlimited next day deliveries on £20+ orders. (Including, free Standard Delivery on £15+ orders.)
-            Shopping just got 10x better and easier >>>
-          </p>
-          <p class="text-xl font-semibold mb-2 text-center"> 
-            For Only £12.99 a Year!
-          </p>
-        </div> 
   
-        <!-- Box 3: Join Now Button -->
-        <div class="bg-yellow-100 p-6 rounded-lg shadow-md text-center">
-          <p class="mb-2">Don't want to miss out on ALL the exclusive benefits? It's simple, sign up now!</p>
-          <button
-            @click="joinLoyalty"
-            class="bg-emerald-500 text-white p-3 rounded-lg hover:bg-emerald-600 w-full"
-          >
-            JOIN NOW
-          </button>
-        </div>
-  
-        <!-- Box 4: Benefits List -->
         <div class="bg-green-100 p-6 rounded-lg shadow-md">
-          <ul class="list-disc list-inside space-y-2">
-            <li>Earn points with every purchase</li>
-            <li>Redeem points for discounts or gifts</li>   
-            <li>Free deliveries</li>
-            <li>Exclusive members-only promotions</li>
-            <li>Birthday rewards and surprise offers</li>
-            <li>Play Games to Earn More!</li>
-          </ul>
+          <h2 class="text-2xl font-semibold mb-4 text-center">Points System</h2>
+          <p class="text-center">
+            Collect points for every purchase and action you take. The more points you earn, the higher your status and the better the rewards you unlock!
+          </p>
         </div>
   
-        <!-- Savings Comparison Table -->
-        <h2 class="text-3xl font-semibold mt-10 mb-4 text-center">Savings Comparison</h2>
-        <table class="table-auto w-full text-left border-collapse mb-6">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="px-4 py-2 border text-center">Number of Orders</th>
-              <th class="px-4 py-2 border text-center">Without Loyalty Program</th>
-              <th class="px-4 py-2 border text-center">With Loyalty Program</th>
-              <th class="px-4 py-2 border text-center">Total Savings</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(savings, index) in savingsData" :key="index">
-              <td class="px-4 py-2 border text-center">{{ savings.orders }} </td>
-              <td class="px-4 py-2 border text-center">£{{ savings.withoutLoyalty }} </td>
-              <td class="px-4 py-2 border text-center">£{{ savings.withLoyalty }} </td>
-              <td class="px-4 py-2 border text-center">£{{ savings.savings }}</td>
-            </tr>
-          </tbody>
-        </table>
-  
-  
-        <!-- Box 5: Create an Account, Choose Lux, and Enjoy Lux -->
-        <div class="flex gap-6 justify-center">
-          <!-- Box 1 -->
-          <div class="bg-cream p-6 rounded-lg shadow-md w-96 text-center">
-            <h3 class="text-xl font-semibold mb-2">Create an Account</h3>
-            <p>Create an account & start shopping with Buygorithm.</p>
-          </div>
-  
-          <!-- Box 2 -->
-          <div class="bg-cream p-6 rounded-lg shadow-md w-96 text-center">
-            <h3 class="text-xl font-semibold mb-2">Choose Lux</h3>
-            <p>Select Lux option using the link above or during your checkout process.</p>
-          </div>
-  
-          <!-- Box 3 -->
-          <div class="bg-cream p-6 rounded-lg shadow-md w-96 text-center">
-            <h3 class="text-xl font-semibold mb-2">Enjoy Lux</h3>
-            <p>Enjoy Lux on your first order and all year long!</p>
-          </div>
+        <div class="bg-yellow-100 p-6 rounded-lg shadow-md">
+          <h2 class="text-2xl font-semibold mb-4 text-center">Mini Games</h2>
+          <p class="text-center">
+            Play fun mini-games like spin-the-wheel and scratch cards to win extra points and prizes!
+          </p>
         </div>
+  
+        <div class="bg-purple-100 p-6 rounded-lg shadow-md">
+          <h2 class="text-2xl font-semibold mb-4 text-center">Referrals</h2>
+          <p class="text-center">
+            Share your unique referral code with friends! Every successful referral earns you both bonus points.
+          </p>
+        </div>
+  
+        <div class="bg-pink-100 p-6 rounded-lg shadow-md">
+          <h2 class="text-2xl font-semibold mb-4 text-center">Tiered Statuses</h2>
+          <p class="text-center">
+            Progress through Bronze, Silver, Gold, and Platinum tiers. Higher tiers unlock bigger discounts, gifts, and VIP-only perks!
+          </p>
+        </div>
+  
+        <div class="bg-red-100 p-6 rounded-lg shadow-md">
+          <h2 class="text-2xl font-semibold mb-4 text-center">Birthday Rewards</h2>
+          <p class="text-center">
+            Celebrate your special day with us — enjoy a surprise points bonus and exclusive birthday offers!
+          </p>
+        </div>
+
+        <!-- Referral Input -->
+        <div class="bg-teal-100 p-6 rounded-lg shadow-md">
+          <ReferralInput />
+        </div>
+
       </main>
       <Footer />
     </div>
   </template>
   
   <script>
-  import Navbar from '@/components/Navbar.vue';
-  import Footer from '@/components/Footer.vue';
+  import Navbar from '@/components/Navbar.vue'
+  import Footer from '@/components/Footer.vue'
+  import ReferralInput from '@/components/loyalty/ReferralInput.vue'
   
   export default {
     name: 'LoyaltyView',
     components: {
       Navbar,
       Footer,
+      ReferralInput,
     },
     data() {
       return {
-        loyaltyPrice: 12.99, // Price for the loyalty program
-        deliveryPrice: 5.99, // Next day delivery price
-        savingsData: [
-        { orders: 3, withoutLoyalty: (3 * 5.99).toFixed(2), withLoyalty: (12.99).toFixed(2), savings: ((3 * 5.99) - 12.99).toFixed(2) },
-          { orders: 5, withoutLoyalty: (5 * 5.99).toFixed(2), withLoyalty: (12.99).toFixed(2), savings: ((5 * 5.99) - 12.99).toFixed(2) },
-          { orders: 10, withoutLoyalty: (10 * 5.99).toFixed(2), withLoyalty: (12.99).toFixed(2), savings: ((10 * 5.99) - 12.99).toFixed(2) },
-          { orders: 15, withoutLoyalty: (15 * 5.99).toFixed(2), withLoyalty: (12.99).toFixed(2), savings: ((15 * 5.99) - 12.99).toFixed(2) }
+        userPoints: 1200, // Example user points
+  
+        // Define tiers
+        tiers: [
+          { name: 'Bronze', minPoints: 0 },
+          { name: 'Silver', minPoints: 1000 },
+          { name: 'Gold', minPoints: 3000 },
+          { name: 'Platinum', minPoints: 6000 },
         ],
       };
     },
-    methods: {
-      joinLoyalty() {
-        alert('Thanks for joining our loyalty program! 🎉');
+    computed: {
+      currentTier() {
+        return this.tiers.slice().reverse().find(tier => this.userPoints >= tier.minPoints)?.name || 'Bronze';
+      },
+      nextTier() {
+        const currentIndex = this.tiers.findIndex(tier => tier.name === this.currentTier);
+        return this.tiers[currentIndex + 1]?.name || 'Top Tier!';
+      },
+      pointsNeeded() {
+        const currentIndex = this.tiers.findIndex(tier => tier.name === this.currentTier);
+        const nextMinPoints = this.tiers[currentIndex + 1]?.minPoints;
+        if (nextMinPoints) {
+          return nextMinPoints - this.userPoints;
+        } else {
+          return 0; // Already at Top Tier
+        }
+      },
+      progressToNextTier() {
+        const currentIndex = this.tiers.findIndex(tier => tier.name === this.currentTier);
+        const currentMinPoints = this.tiers[currentIndex]?.minPoints || 0;
+        const nextMinPoints = this.tiers[currentIndex + 1]?.minPoints || (currentMinPoints + 3000); // If last tier
+  
+        const progress = ((this.userPoints - currentMinPoints) / (nextMinPoints - currentMinPoints)) * 100;
+        return Math.min(Math.max(progress, 0), 100).toFixed(0);
       },
     },
-  };
+  }
   </script>
+  
   
   <style scoped>
   .loyalty {
     @apply min-h-screen flex flex-col;
   }
   </style>
-  

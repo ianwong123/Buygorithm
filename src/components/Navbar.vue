@@ -22,7 +22,8 @@
       <router-link to="/trending" class="hover:text-gray-200">Shop</router-link>
       <router-link to="/sell" class="hover:text-gray-200">Sell</router-link>
       <router-link to="/manage" class="hover:text-gray-200">Manage Products</router-link>
-      <router-link to="/lux" class="hover:text-gray-200">Loyalty</router-link>
+      <router-link to="/loyalty" class="hove:text-gray-200">Loyalty</router-link>
+      <router-link to="/lux" class="hover:text-gray-200">Lux</router-link>
       <router-link to="/cart" class="hover:text-gray-200">Cart</router-link>
       <button @click="openLoginModal" class="hover:text-gray-200">Login</button>
       <button @click="openSignupModal" class="hover:text-gray-200">Sign Up</button>
