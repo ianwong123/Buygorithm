@@ -3,35 +3,33 @@
       <Navbar />
       <main class="flex-grow p-6 max-w-2xl mx-auto space-y-6">
         <h1 class="text-5xl font-bold mb-6 text-center">Loyalty Program</h1>
-
-        <!-- Points Tracker Box -->
+  
+        <!-- Points Tracker -->
         <div class="bg-indigo-100 p-6 rounded-lg shadow-md text-center">
           <h2 class="text-2xl font-semibold mb-4">Your Points</h2>
           <p class="text-3xl font-bold">{{ userPoints }} Points</p>
         </div>
-
+  
         <!-- Tier Status Tracker -->
         <div class="bg-orange-100 p-6 rounded-lg shadow-md text-center">
-            <h2 class="text-2xl font-semibold mb-4">Your Tier</h2>
-        <div class="text-3xl font-bold mb-2">{{ currentTier }}</div>
-
-        <!-- Progress Bar -->
-        <div class="w-full bg-gray-300 rounded-full h-5 overflow-hidden mb-4">
+          <h2 class="text-2xl font-semibold mb-4">Your Tier</h2>
+          <div class="text-3xl font-bold mb-2">{{ currentTier }}</div>
+  
+          <div class="w-full bg-gray-300 rounded-full h-5 overflow-hidden mb-4">
             <div 
-                class="bg-emerald-400 h-full text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                :style="{ width: progressToNextTier + '%' }"
+              class="bg-emerald-400 h-full text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+              :style="{ width: progressToNextTier + '%' }"
             >
-            {{ progressToNextTier }}%
-         </div>
-    </div>
-
-  <!-- Info about Next Tier -->
-  <p class="text-sm text-gray-600">
-    {{ pointsNeeded }} more points needed to reach <span class="font-semibold">{{ nextTier }}</span>!
-  </p>
-</div>
-
-        <!-- Info Paragraph Boxes -->
+              {{ progressToNextTier }}%
+            </div>
+          </div>
+  
+          <p class="text-sm text-gray-600">
+            {{ pointsNeeded }} more points needed to reach <span class="font-semibold">{{ nextTier }}</span>!
+          </p>
+        </div>
+  
+        <!-- Info Sections -->
         <div class="bg-blue-100 p-6 rounded-lg shadow-md">
           <h2 class="text-2xl font-semibold mb-4 text-center">Welcome</h2>
           <p class="text-center">
@@ -45,14 +43,12 @@
             Collect points for every purchase and action you take. The more points you earn, the higher your status and the better the rewards you unlock!
           </p>
         </div>
-  
-        <div class="bg-yellow-100 p-6 rounded-lg shadow-md">
+
+        <!-- MiniGame (NEW!) -->
+          <div class="bg-yellow-100 p-6 rounded-lg shadow-md">
           <h2 class="text-2xl font-semibold mb-4 text-center">Mini Games</h2>
-          <p class="text-center">
-            Play fun mini-games like spin-the-wheel and scratch cards to win extra points and prizes!
-          </p>
+          <Minigame @gameFinished="handleGameFinished" />
         </div>
-  
         <div class="bg-purple-100 p-6 rounded-lg shadow-md">
           <h2 class="text-2xl font-semibold mb-4 text-center">Referrals</h2>
           <p class="text-center">
@@ -73,12 +69,12 @@
             Celebrate your special day with us — enjoy a surprise points bonus and exclusive birthday offers!
           </p>
         </div>
-
+  
         <!-- Referral Input -->
         <div class="bg-teal-100 p-6 rounded-lg shadow-md">
           <ReferralInput />
         </div>
-
+  
       </main>
       <Footer />
     </div>
@@ -88,6 +84,7 @@
   import Navbar from '@/components/Navbar.vue'
   import Footer from '@/components/Footer.vue'
   import ReferralInput from '@/components/loyalty/ReferralInput.vue'
+  import Minigame from '@/views/Minigame.vue' // Import your Minigame component here
   
   export default {
     name: 'LoyaltyView',
@@ -95,12 +92,11 @@
       Navbar,
       Footer,
       ReferralInput,
+      Minigame, // register Minigame here
     },
     data() {
       return {
-        userPoints: 1200, // Example user points
-  
-        // Define tiers
+        userPoints: 1200, // Example starting points
         tiers: [
           { name: 'Bronze', minPoints: 0 },
           { name: 'Silver', minPoints: 1000 },
@@ -129,18 +125,22 @@
       progressToNextTier() {
         const currentIndex = this.tiers.findIndex(tier => tier.name === this.currentTier);
         const currentMinPoints = this.tiers[currentIndex]?.minPoints || 0;
-        const nextMinPoints = this.tiers[currentIndex + 1]?.minPoints || (currentMinPoints + 3000); // If last tier
-  
+        const nextMinPoints = this.tiers[currentIndex + 1]?.minPoints || (currentMinPoints + 3000);
         const progress = ((this.userPoints - currentMinPoints) / (nextMinPoints - currentMinPoints)) * 100;
         return Math.min(Math.max(progress, 0), 100).toFixed(0);
       },
     },
+    methods: {
+      handleGameFinished(scoreFromGame) {
+        this.userPoints += scoreFromGame;
+      }
+    }
   }
   </script>
-  
   
   <style scoped>
   .loyalty {
     @apply min-h-screen flex flex-col;
   }
   </style>
+  
