@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue';
 import TrendingView from '@/views/TrendingView.vue';
 import SellView from '@/views/SellView.vue';
 import ProductDetail from '@/components/ProductDetail.vue';
+import LoyaltyView from '@/views/LoyaltyView.vue';
 
 
 /*User defined routes*/
@@ -13,7 +14,7 @@ const routes = [
   { path: '/trending', component: TrendingView, props: (route) => ({ query: route.query }) },
   { path: '/sell', component: SellView },
   { path: '/product/:id', name: 'ProductDetail',component: ProductDetail,},
-  { path: '/loyalty', name: 'LoyaltyView', component: Loyalty,},
+  { path: '/lux', name: 'Loyalty', component: LoyaltyView},
 ];
 
 // Create the router instance and pass the `routes` option
