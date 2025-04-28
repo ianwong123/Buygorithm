@@ -53,6 +53,20 @@ export default {
     return apiClient.post('/login', loginData);
   },
 
+
+   // Product Management
+  getUserProducts() {
+    return apiClient.get('/user/products');
+  },
+
+  updateProduct(id, productData) {
+    return apiClient.put(`/api/products/${id}`, productData);
+  },
+
+  deleteProduct(id) {
+    return apiClient.delete(`/api/products/${id}`);
+  },
+
   setAuthToken(token) {
     apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   },

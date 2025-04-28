@@ -233,6 +233,77 @@ app.get('/api/categories', async (req, res) => {
 });
 
 
+// Update product
+app.put('/api/products/:id', authenticate, async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const { title, description, price, quantity, condition, category } = req.body;
+    
+    // Verify product belongs to requesting user
+    const [product] = await pool.query(
+      'SELECT * FROM products WHERE product_id = ? AND seller_id = ?',
+      [productId, req.user.user_id]
+    );
+    
+    if (product.length === 0) {
+      return res.status(404).json({ error: 'Product not found or unauthorized' });
+    }
+
+    // Update product
+    await pool.query(
+      `UPDATE products SET 
+       title = ?, 
+       item_description = ?,
+       price = ?,
+       quantity = ?,
+       item_condition = ?
+       WHERE product_id = ?`,
+      [title, description, price, quantity, condition, productId]
+    );
+
+    res.json({ message: 'Product updated successfully' });
+  } catch (error) {
+    console.error('Error updating product:', error);
+    res.status(500).json({ error: 'Failed to update product' });
+  }
+});
+
+// Delete product
+app.delete('/api/products/:id', authenticate, async (req, res) => {
+  try {
+    const productId = req.params.id;
+    
+    // Verify product belongs to requesting user
+    const [product] = await pool.query(
+      'SELECT * FROM products WHERE product_id = ? AND seller_id = ?',
+      [productId, req.user.user_id]
+    );
+    
+    if (product.length === 0) {
+      return res.status(404).json({ error: 'Product not found or unauthorized' });
+    }
+
+    // Delete product images first
+    await pool.query(
+      'DELETE FROM product_images WHERE product_id = ?',
+      [productId]
+    );
+
+    // Then delete product
+    await pool.query(
+      'DELETE FROM products WHERE product_id = ?',
+      [productId]
+    );
+
+    res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ error: 'Failed to delete product' });
+  }
+});
+
+
+
 // Sign up
 app.post('/api/signup', async (req, res) => {
   const { username, email, phone, password, full_name, address } = req.body;
@@ -319,7 +390,7 @@ app.post('/api/login', async (req, res) => {
     const token = jwt.sign(
       { userId: user[0].user_id, role: user[0].role },
       process.env.JWT_SECRET,
-      { expiresIn: '1m' }
+      { expiresIn: '24h' }
     );
 
     console.log('Successful login for:', user[0].username);

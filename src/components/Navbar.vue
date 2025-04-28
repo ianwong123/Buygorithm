@@ -4,11 +4,12 @@
     <div class="text-2xl md:text-4xl font-bold">Buygorithm</div>
 
     <!-- Desktop Menu -->
-    <div class="hidden md:flex space-x-4">
+    <div class="hidden md:flex space-x-4 items-center">
+      <!-- Always visible menu items -->
       <router-link to="/" class="hover:text-gray-200">Home</router-link>
       
-      <!-- Minigames Dropdown (Desktop) -->
-      <div class="relative z-50">
+      <!-- Minigames Dropdown -->
+      <div class="relative">
         <button class="hover:text-gray-200 font-medium" @click="toggleMinigameDropdown">
           Minigame 
         </button>
@@ -20,13 +21,25 @@
 
       <router-link to="/auction" class="hover:text-gray-200">Auction</router-link>
       <router-link to="/trending" class="hover:text-gray-200">Shop</router-link>
-      <router-link to="/sell" class="hover:text-gray-200">Sell</router-link>
-      <router-link to="/manage" class="hover:text-gray-200">Manage Products</router-link>
-      <router-link to="/loyalty" class="hove:text-gray-200">Loyalty</router-link>
+      <router-link to="/loyalty" class="hover:text-gray-200">Loyalty</router-link>
       <router-link to="/lux" class="hover:text-gray-200">Lux</router-link>
       <router-link to="/cart" class="hover:text-gray-200">Cart</router-link>
-      <button @click="openLoginModal" class="hover:text-gray-200">Login</button>
-      <button @click="openSignupModal" class="hover:text-gray-200">Sign Up</button>
+
+      <!-- Conditional seller/admin items -->
+      <template v-if="isAuthenticated">
+        <router-link to="/sell" class="hover:text-gray-200">Sell</router-link>
+        <router-link to="/manage" class="hover:text-gray-200">Manage Products</router-link>
+      </template>
+
+      <!-- Auth Buttons -->
+      <template v-if="!isAuthenticated">
+        <button @click="openLoginModal" class="hover:text-gray-200">Login</button>
+        <button @click="openSignupModal" class="hover:text-gray-200">Sign Up</button>
+      </template>
+      <template v-else>
+        <span class="font-medium">Hi, {{ currentUser.username }}</span>
+        <button @click="logout" class="hover:text-gray-200">Logout</button>
+      </template>
     </div>
 
     <!-- Mobile Menu Button -->
@@ -43,6 +56,8 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
+      
+      <!-- Always visible mobile menu items -->
       <router-link to="/" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Home</router-link>
       
       <!-- Minigames Dropdown (Mobile) -->
@@ -57,16 +72,34 @@
       </div>
 
       <router-link to="/auction" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Auction</router-link>
-      <router-link to="/sell" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Sell</router-link>
-      <router-link to="/lux" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Loyalty</router-link>
-      <button @click="openLoginModal" class="text-2xl my-2 hover:text-gray-200">Login</button>
-      <button @click="openSignupModal" class="text-2xl my-2 hover:text-gray-200">Sign Up</button>
+      <router-link to="/trending" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Shop</router-link>
+      <router-link to="/loyalty" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Loyalty</router-link>
+      <router-link to="/lux" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Lux</router-link>
+      <router-link to="/cart" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Cart</router-link>
+
+      <!--  Onlly seller mobile items -->
+      <template v-if="isAuthenticated">
+        <router-link to="/sell" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Sell</router-link>
+        <router-link to="/manage" class="text-2xl my-2 hover:text-gray-200" @click="toggleMenu">Manage Products</router-link>
+      </template>
+
+      <!-- Auth Buttons (Mobile) -->
+      <template v-if="!isAuthenticated">
+        <button @click="openLoginModal" class="text-2xl my-2 hover:text-gray-200">Login</button>
+        <button @click="openSignupModal" class="text-2xl my-2 hover:text-gray-200">Sign Up</button>
+      </template>
+      <template v-else>
+        <span class="text-2xl my-2">Hi, {{ currentUser.username }}</span>
+        <button @click="logout" class="text-2xl my-2 hover:text-gray-200">Logout</button>
+      </template>
     </div>
 
-    <!-- Login Modal -->
-    <LoginModal :isOpen="isLoginModalOpen" @close="closeLoginModal" />
-
-    <!-- Signup Modal -->
+    <!-- Modals -->
+    <LoginModal 
+      :isOpen="isLoginModalOpen" 
+      @close="closeLoginModal"
+      @login-success="handleLoginSuccess"
+    />
     <SignupModal :isOpen="isSignupModalOpen" @close="closeSignupModal" />
   </nav>
 </template>
@@ -97,8 +130,8 @@ export default {
       return !!localStorage.getItem('token');
     },
     currentUser() {
-      return JSON.parse(localStorage.getItem('user'));
-    }
+      const user = localStorage.getItem('user');
+      return user ? JSON.parse(user) : null;    }
   },
 
   methods: {
@@ -130,15 +163,40 @@ export default {
       this.isSignupModalOpen = false;
     },
 
+    handleLoginSuccess(userData) {
+
+    // Force update the navbar upon successful login
+    this.$forceUpdate();
+    
+    // Close the modal
+    this.closeLoginModal();
+    
+    // Show notification
+    this.showToast(`Welcome back, ${userData.username}!`);
+    },
+    
+    // toast notification implementation
+    showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    },
+
     logout() {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       this.$router.push('/');
+      this.$forceUpdate(); 
+
     },
   },
 };
 </script>
 
 <style scoped>
-/* Add custom styles if needed */
 </style>

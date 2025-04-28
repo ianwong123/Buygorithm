@@ -1,265 +1,160 @@
 <template>
-    <div class="sell min-h-screen flex flex-col">
-      <Navbar />
-      <main class="flex-grow p-6 max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold mb-6">Update or Delete a Product</h1>
-        
-        <div v-if="submitted" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-          <strong>Success!</strong> Your product has been listed.
-          <div class="mt-4">
-            <button @click="viewProduct" class="bg-teal-500 text-white px-4 py-2 rounded mr-2">
-              View Product
-            </button>
-            <button @click="resetForm" class="bg-gray-300 px-4 py-2 rounded">
-              List Another Product
-            </button>
-          </div>
+  <div class="manage min-h-screen flex flex-col">
+    <Navbar />
+    <main class="flex-grow p-6 max-w-4xl mx-auto">
+      <h1 class="text-3xl font-bold mb-6">Manage Your Products</h1>
+      
+      <!-- Loading State -->
+      <div v-if="loading" class="text-center py-10">
+        <p class="text-lg">Loading your products...</p>
+      </div>
+      
+      <!-- Error State -->
+      <div v-else-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        {{ error }}
+      </div>
+      
+      <!-- Success State -->
+      <div v-else>
+        <div v-if="products.length === 0" class="text-center py-10">
+          <p class="text-lg">You haven't listed any products yet.</p>
+          <router-link 
+            to="/sell" 
+            class="mt-4 inline-block bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600"
+          >
+            List Your First Product
+          </router-link>
         </div>
         
-        <form v-else @submit.prevent="handleSubmit" class="space-y-4">
-          <!-- Product Name Field -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Product Name</label>
-            <input
-              v-model="product.name"
-              type="text"
-              required
-              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-
-          <!-- Product Name Field -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Product ID</label>
-            <input
-              v-model="product.name"
-              type="integer"
-              required
-              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-  
-          <!-- Product Description Field
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Description</label>
-            <textarea
-              v-model="product.description"
-              required
-              rows="4"
-              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
-            ></textarea>
-          </div> -->
-  
-          <!-- Price Field -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Price (£)</label>
-            <input
-              v-model="product.price"
-              type="number"
-              min="0"
-              step="0.01"
-              required
-              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-  
-          <!-- Quantity Field -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Quantity</label>
-            <input
-              v-model="product.quantity"
-              type="number"
-              min="1"
-              required
-              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-  
-          <!-- Condition Field -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Condition</label>
-            <select
-              v-model="product.condition"
-              required
-              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
-            >
-              <option value="new">New</option>
-              <option value="used">Used</option>
-            </select>
-          </div>
-  
-          <!-- Select Category Field -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Category</label>
-            <select
-              v-model="product.category"
-              required
-              class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
-            >
-              <option value="Brand New">Brand New</option>
-              <option value="Accessories">Accessories</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Second Hand">Second Hand</option>
-            </select>
-          </div>
-  
-          <!-- Upload Image Field -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Product Images</label>
-            <input
-              type="file"
-              @change="handleImageUpload"
-              accept="image/*"
-              multiple
-              class="mt-1 block w-full"
-            />
-            <div v-if="product.imagePreviews.length" class="mt-2 grid grid-cols-3 gap-4">
-              <div v-for="(image, index) in product.imagePreviews" :key="index" class="relative">
-                <img :src="image" class="w-full h-32 object-cover rounded-lg" />
-                <button
-                  type="button"
-                  @click="handleImageDelete(index)"
-                  class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div 
+            v-for="product in products" 
+            :key="product.product_id" 
+            class="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div class="p-4">
+              <div class="flex items-start gap-4">
+                <img 
+                  :src="product.primary_image || 'https://via.placeholder.com/150'" 
+                  class="w-24 h-24 object-cover rounded-lg"
+                  alt="Product image"
                 >
-                  X
+                <div class="flex-1">
+                  <h2 class="text-lg font-semibold">{{ product.title }}</h2>
+                  <p class="text-teal-600 font-bold">£{{ product.price.toFixed(2) }}</p>
+                  <p class="text-sm text-gray-500">Stock: {{ product.quantity }}</p>
+                </div>
+              </div>
+              
+              <div class="mt-4 flex space-x-2">
+                <router-link
+                  :to="`/product/${product.product_id}`"
+                  class="flex-1 text-center bg-blue-500 text-white py-2 px-3 rounded text-sm"
+                >
+                  View
+                </router-link>
+                <button
+                  @click="editProduct(product.product_id)"
+                  class="flex-1 bg-teal-500 text-white py-2 px-3 rounded text-sm"
+                >
+                  Edit
+                </button>
+                <button
+                  @click="confirmDelete(product.product_id)"
+                  class="flex-1 bg-red-500 text-white py-2 px-3 rounded text-sm"
+                >
+                  Delete
                 </button>
               </div>
             </div>
           </div>
-  
-          <!-- Submit Button -->
-          <button type="submit" class="w-full bg-teal-500 text-white p-2 rounded-lg hover:bg-teal-600" :disabled="loading">
-            <span v-if="loading">Listing Product...</span>
-            <span v-else>Update Product</span>
-          </button>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </div>
+</template>
 
-            <!-- Submit Button -->
-          <button type="submit"class="w-full bg-teal-500 text-white p-2 rounded-lg hover:bg-teal-600" :disabled="loading">
-            <span v-if="loading">Listing Product...</span>
-            <span v-else>Delete Product</span>
-          </button>
-          
-          
+<script>
+import Navbar from '@/components/Navbar.vue';
+import Footer from '@/components/Footer.vue';
+import api from '@/services/api';
 
+export default {
+  name: 'ManageView',
+  components: {
+    Navbar,
+    Footer,
+  },
+  data() {
+    return {
+      products: [],
+      loading: true,
+      error: null,
+    };
+  },
+  async created() {
+    await this.fetchUserProducts();
+  },
+  methods: {
+    async fetchUserProducts() {
+      this.loading = true;
+      this.error = null;
+      
+      try {
+        // First verify we have a token
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Not authenticated');
+        }
 
-          <div v-if="error" class="text-red-600 text-center">
-            {{ error }}
-          </div>
-        </form>
-      </main>
-      <Footer />
-    </div>
-  </template>
-  
-  <script>
-  import Navbar from '@/components/Navbar.vue';
-  import Footer from '@/components/Footer.vue';
-  import api from '@/services/api';
-  
-  export default {
-    name: 'ManageView',
-    components: {
-      Navbar,
-      Footer,
-    },
-    data() {
-      return {
-        product: {
-          name: '',
-          description: '',
-          price: 0,
-          quantity: 1,
-          category: 'Brand New',
-          condition: 'new',
-          images: [],
-          imagePreviews: [],
-        },
-        loading: false,
-        error: null,
-        submitted: false,
-        createdProductId: null
-      };
-    },
-    methods: {
-      handleImageUpload(e) {
-        const files = Array.from(e.target.files);
-        if (files.length + this.product.images.length > 25) {
-          alert('You can upload a maximum of 25 images.');
-          return;
-        }
+        const response = await api.getUserProducts();
+        console.log('API Response:', response.data); // Debug log
         
-        // In a real app, you'd upload these to a server and get URLs back
-        // For now, we'll use local object URLs
-        files.forEach(file => {
-          this.product.images.push(file);
-          this.product.imagePreviews.push(URL.createObjectURL(file));
-        });
-      },
-      handleImageDelete(index) {
-        this.product.images.splice(index, 1);
-        this.product.imagePreviews.splice(index, 1);
-      },
-      async handleSubmit() {
-        // Validate product name length
-        if (this.product.name.length > 100) {
-          alert('Product name must be 100 characters or less only.');
-          return;
+        if (response.data && Array.isArray(response.data)) {
+          this.products = response.data.map(product => ({
+            ...product,
+            price: parseFloat(product.price) || 0,
+            quantity: parseInt(product.quantity) || 0
+          }));
+        } else {
+          throw new Error('Invalid data format from server');
         }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        this.error = error.response?.data?.error || 
+                    error.message || 
+                    'Failed to load products. Please try again.';
         
-        this.loading = true;
-        this.error = null;
-        
-        try {
-          // In a real app, you'd upload images to a server first
-          // For now, we'll just use the first preview URL
-          const productData = {
-            title: this.product.name,
-            item_description: this.product.description,
-            price: parseFloat(this.product.price),
-            quantity: parseInt(this.product.quantity),
-            category: this.product.category,
-            item_condition: this.product.condition,
-            // In a real app, these would be URLs from the server after upload
-            images: this.product.imagePreviews
-          };
-          
-          const response = await api.createProduct(productData);
-          this.createdProductId = response.data.productId;
-          this.submitted = true;
-        } catch (error) {
-          console.error('Error creating product:', error);
-          this.error = 'Failed to list your product. Please try again.';
-        } finally {
-          this.loading = false;
+        if (error.response?.status === 401) {
+          this.error = 'Please login to view your products';
         }
-      },
-      viewProduct() {
-        // Navigate to trending page with the relevant category tab
-        this.$router.push({ 
-          path: '/trending', 
-          query: { tab: this.product.category } 
-        });
-      },
-      resetForm() {
-        this.product = {
-          name: '',
-          description: '',
-          price: 0,
-          quantity: 1,
-          category: 'Brand New',
-          condition: 'new',
-          images: [],
-          imagePreviews: [],
-        };
-        this.submitted = false;
-        this.createdProductId = null;
+      } finally {
+        this.loading = false;
       }
     },
-  };
-  </script>
-  
-  <style scoped>
-  .sell {
-    @apply min-h-screen flex flex-col;
+    
+    editProduct(productId) {
+      this.$router.push(`/edit-product/${productId}`);
+    },
+    
+    async confirmDelete(productId) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        try {
+          await api.deleteProduct(productId);
+          this.products = this.products.filter(p => p.product_id !== productId);
+        } catch (error) {
+          console.error('Delete failed:', error);
+          alert('Failed to delete product. Please try again.');
+        }
+      }
+    }
   }
-  </style>
+};
+</script>
+
+<style scoped>
+.manage {
+  @apply min-h-screen flex flex-col;
+}
+</style>

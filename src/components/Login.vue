@@ -29,6 +29,7 @@
       <div v-else>
         <h2 class="text-xl sm:text-2xl  text-gray-700 font-bold mb-4">Login</h2>
         <form @submit.prevent="handleLogin">
+          
           <!-- Username or Email -->
           <div class="mb-3 sm:mb-4">
             <label for="username" class="block text-xs sm:text-sm font-medium text-gray-700">Username</label>
@@ -134,8 +135,9 @@ export default {
            // Set auth header for future requests
           api.setAuthToken(response.data.token);
           // Emit success event
-          this.showSuccess = true;
+
           this.$emit('login-success', response.data.user);
+          this.closeModal();
 
         } else {
           this.error = response.data.message || 'Login failed';
