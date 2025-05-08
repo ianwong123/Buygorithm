@@ -1,6 +1,6 @@
 <template>
   <div class="minigame text-center">
-    <h1 class="text-3xl font-bold mb-4">Catch the Points!</h1>
+    <h1>Catch the Points!</h1>
     <p>Use ← and → to move the basket. Score: <span>{{ score }}</span></p>
 
     <canvas v-show="gameStarted" id="gameCanvas" width="400" height="600" class="mx-auto my-4"></canvas>
@@ -42,7 +42,7 @@ export default {
       points: [],
       gameStarted: false,
       spawnInterval: null,
-      animationFrameId: null, // Save the animation ID to stop it
+      animationFrameId: null,
     };
   },
   methods: {
@@ -82,11 +82,14 @@ export default {
 
       const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = "orange";
+        
+        ctx.fillStyle = "pink";
         ctx.fillRect(this.basket.x, this.basket.y, this.basket.width, this.basket.height);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(this.basket.x, this.basket.y, this.basket.width, this.basket.height);
 
-        ctx.fillStyle = "lime";
+        ctx.fillStyle = "purple";
         this.points.forEach(p => {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -122,8 +125,23 @@ export default {
 </script>
 
 <style scoped>
+body {
+  margin: 0;
+  overflow: hidden;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
 canvas {
+  display: block;
+  margin: auto;
   background: #333;
+  background-size: cover;
   border: 2px solid #555;
+}
+
+h1 {
+  margin-bottom: 1rem;
 }
 </style>

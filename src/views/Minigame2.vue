@@ -28,7 +28,7 @@
           y: 300,
           width: 30,
           height: 30,
-          color: 'yellow',
+          color: 'pink',
           velocity: 0
         },
         pipes: [],
@@ -72,7 +72,7 @@
       },
       drawPipes() {
         this.pipes.forEach(pipe => {
-          this.ctx.fillStyle = 'green';
+          this.ctx.fillStyle = 'purple';
           this.ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
           this.ctx.fillRect(pipe.x, pipe.bottom, pipe.width, this.$refs.gameCanvas.height - pipe.bottom);
         });
